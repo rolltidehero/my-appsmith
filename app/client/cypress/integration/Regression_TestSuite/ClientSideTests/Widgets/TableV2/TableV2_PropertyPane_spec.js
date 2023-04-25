@@ -373,7 +373,7 @@ describe("Table Widget V2 property pane feature validation", function () {
     );
   });
 
-  it.only("14. It provides currentRow and currentIndex properties in min validation field", function () {
+  it("14. It provides currentRow and currentIndex properties in min validation field", function () {
     cy.openPropertyPane("tablewidgetv2");
     cy.makeColumnEditable("orderAmount");
     cy.editColumn("orderAmount");
@@ -431,12 +431,19 @@ describe("Table Widget V2 property pane feature validation", function () {
     cy.enterTableCellValue(4, 1, 7);
     cy.get(".bp3-popover-content").should("not.exist");
     propPane.UpdatePropertyFieldValue("Regex", "");
+  });
 
+  it.only("15. second test", function () {
     // Check for Required property using currentIndex
 
     // Value is required only in Row Index 1.
+    cy.openPropertyPane("tablewidgetv2");
+    cy.makeColumnEditable("orderAmount");
+    cy.editColumn("orderAmount");
+
     cy.get(".t--property-control-required").find(".t--js-toggle").click();
     propPane.UpdatePropertyFieldValue("Required", "{{currentIndex == 1}}");
+    cy.backFromPropertyPanel();
 
     cy.editTableCell(4, 1);
     cy.enterTableCellValue(4, 1, "");
@@ -455,41 +462,52 @@ describe("Table Widget V2 property pane feature validation", function () {
     cy.enterTableCellValue(4, 2, "");
     cy.get(".bp3-popover-content").should("not.exist");
     cy.enterTableCellValue(4, 2, 11);
+    cy.get(".bp3-popover-content").should("not.exist");
+    cy.get("body").click(0, 0);
+    cy.discardTableRow(5, 2);
     // cy.pause()
 
+    cy.enterTableCellValue(4, 2, "");
     cy.get(".bp3-popover-content").should("not.exist");
-    cy.pause();
 
-    // cy.enterTableCellValue(4, 2, "");
-    // cy.get(".bp3-popover-content").should("not.exist");
-    // cy.discardTableRow(5,2);
+    // cy.pause();
+
+    // cy.wait(1000);
+    // cy.pause()
 
     // Check for Required property using currentRow
     // cy.get(".t--property-control-required").find(".t--js-toggle").click();
 
-    // propPane.UpdatePropertyFieldValue("Required", "{{currentRow.id == 7}}");
+    cy.openPropertyPane("tablewidgetv2");
+    cy.editColumn("orderAmount");
+    propPane.UpdatePropertyFieldValue("Required", "{{currentRow.id == 7}}");
+    cy.backFromPropertyPanel();
 
-    // cy.editTableCell(4, 1);
-    // cy.enterTableCellValue(4, 1, "");
-    // cy.get(".bp3-popover-content").contains("This field is required");
-    // cy.enterTableCellValue(4, 1, 1);
-    // cy.get(".bp3-popover-content").should("not.exist");
-    // cy.enterTableCellValue(4, 1, "");
-    // cy.get(".bp3-popover-content").contains("This field is required");
+    // cy.pause()
+    cy.editTableCell(4, 1);
+    // cy.pause()
+    cy.enterTableCellValue(4, 1, "");
+    // cy.pause()
+    // cy.pause()
+    cy.get(".bp3-popover-content").contains("This field is required");
+    cy.enterTableCellValue(4, 1, 1);
+    cy.get(".bp3-popover-content").should("not.exist");
+    cy.enterTableCellValue(4, 1, "");
+    cy.get(".bp3-popover-content").contains("This field is required");
 
-    // cy.enterTableCellValue(4, 1, 1);
-    // cy.get(".bp3-popover-content").should("not.exist");
-    // cy.discardTableRow(5,1);
+    cy.enterTableCellValue(4, 1, 1);
+    cy.get(".bp3-popover-content").should("not.exist");
+    cy.discardTableRow(5, 1);
 
-    // // Value isn't required in Row Index 2
-    // cy.editTableCell(4, 2);
-    // cy.enterTableCellValue(4, 2, "");
-    // cy.get(".bp3-popover-content").should("not.exist");
-    // cy.enterTableCellValue(4, 2, 10);
-    // cy.get(".bp3-popover-content").should("not.exist");
+    // Value isn't required in Row Index 2
+    cy.editTableCell(4, 2);
+    cy.enterTableCellValue(4, 2, "");
+    cy.get(".bp3-popover-content").should("not.exist");
+    cy.enterTableCellValue(4, 2, 10);
+    cy.get(".bp3-popover-content").should("not.exist");
 
-    // cy.enterTableCellValue(4, 2, "");
-    // cy.get(".bp3-popover-content").should("not.exist");
+    cy.enterTableCellValue(4, 2, "");
+    cy.get(".bp3-popover-content").should("not.exist");
     // cy.pause();
 
     // cy.discardTableRow(5,2);
